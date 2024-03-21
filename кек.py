@@ -11,13 +11,13 @@ keyboard.add(KeyboardButton('Получить погоду', request_location=Tr
 keyboard.add(KeyboardButton('О проекте'))
 
 
-
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-   text = 'Отправь мне свое местоположение и я отправлю тебе погоду'
-   bot.send_message(message.chat.id, text, reply_markup=keyboard)
+    text = 'Отправь мне свое местоположение и я отправлю тебе погоду'
+    bot.send_message(message.chat.id, text, reply_markup=keyboard)
 
-@bot.message_handler(content_types=[location])
+
+@bot.message_handler(content_types=['location'])
 def send_weather(message):
     lon = message.location.longitude
     lat = message.location.latitude
@@ -25,8 +25,9 @@ def send_weather(message):
     if rez:
         bot.send_message(message.chat.id, rez, reply_markup=keyboard)
 
+
 def get_weather(lat, lon):
-    params = {'lat':  lat,
+    params = {'lat': lat,
               'lon': lon,
               'lang': 'ru',
               'units': 'metric',
@@ -44,10 +45,12 @@ def get_weather(lat, lon):
     message += f'Ощущается как {temp_feels_like}°C.\n'
     message += f'Влажность{humidity}%.\n'
     return message
+
+
 @bot.message_handler(regexp='О проекте')
-def send_about():
-    message = 'Бота сделал Матвеев Станислав'
-    bot.send_message(message.chat.id, reply_markup=keyboard)
+def send_about(message):
+    soob = 'Бота сделал Матвеев Станислав'
+    bot.send_message(message.chat.id, soob, reply_markup=keyboard)
 
 
 bot.infinity_polling()
